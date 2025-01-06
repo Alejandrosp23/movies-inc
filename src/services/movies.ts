@@ -1,7 +1,7 @@
 import { Movie } from '@/src/types/movies';
 import apiClient from '@/src/config/api';
 
-const getNowPlayingMovies = async (): Promise<Movie[]> => {
+const fetchNowPlayingMovies = async (): Promise<Movie[]> => {
     const response = await apiClient.get('/movie/now_playing', {
         params: { language: 'en-US', page: 1 },
     });
@@ -11,4 +11,4 @@ const getNowPlayingMovies = async (): Promise<Movie[]> => {
     return sortedMovies;
 }
 
-export { getNowPlayingMovies };
+export { fetchNowPlayingMovies };
