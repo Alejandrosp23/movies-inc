@@ -6,7 +6,7 @@ const apiClient = axios.create({
     baseURL: BASE_URL,
     headers: {
         Accept: 'application/json',
-        Authorization: `Bearer ${process.env.API_KEY}`,
+        Authorization: `Bearer ${''}`,
     }
 });
 
