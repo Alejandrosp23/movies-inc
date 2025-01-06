@@ -3,6 +3,7 @@ import { router, useRouter } from 'expo-router';
 import { Movie } from '@/src/types/movies';
 
 export function MovieList({ movies }: { movies: Movie[] }) {
+
     return (
         <FlatList
           data={movies}
@@ -11,7 +12,7 @@ export function MovieList({ movies }: { movies: Movie[] }) {
           columnWrapperStyle={styles.row}
           renderItem={({ item }) => (
             <TouchableOpacity
-              onPress={() => {}}
+              onPress={() => router.push(`/movie/${item.id}`)}
               style={styles.card}
             >
               <Image
