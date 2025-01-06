@@ -1,6 +1,7 @@
 import React from "react";
 import { Movie } from "../types/movies";
 import { StyleSheet, View, Image, Text } from 'react-native';
+import GenreTags from "./GenreTags";
 
 export function MovieHeader({ movie }: { movie: Movie}) {
     return (
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
     sectionTitle: {
       fontSize: 18,
       fontWeight: 'bold',
-      marginBottom: 10,
+      marginBottom: 8,
       color: '#333',
     },
     overview: {

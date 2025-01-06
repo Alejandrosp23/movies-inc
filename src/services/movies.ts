@@ -29,5 +29,14 @@ const fetchMovieDetailsById = async (id: number): Promise<Movie> => {
     return {...movie, cast};
 }
 
+async function rateMovie(id: number, rating: number) {
+    const response = await apiClient.post(`/movie/${id}/rating`, {
+        value: rating,
+    });
+    console.log(response.data);
+    console.log(`You rated movie ${id} with a ${rating} star rating.`);
+    return response.data;
+}
 
-export { fetchNowPlayingMovies, fetchMovieDetailsById };
+
+export { fetchNowPlayingMovies, fetchMovieDetailsById, rateMovie };
