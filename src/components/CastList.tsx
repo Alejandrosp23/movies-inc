@@ -18,6 +18,7 @@ export default function CastList({ cast }: CastListProps) {
               source={{ uri: member.profile_path
                 ? `https://image.tmdb.org/t/p/w500${member.profile_path}` 
                 : 'https://via.placeholder.com/150' }}
+              testID={`cast-image-${member.id}`}
               style={styles.castImage}
             />
             <Text style={styles.castName}>{member.name}</Text>

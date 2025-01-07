@@ -42,8 +42,6 @@ async function rateMovie(id: number, rating: number) {
         const response = await apiClient.post(`/movie/${id}/rating`, {
             value: rating,
         });
-        console.log(response.data);
-        console.log(`You rated movie ${id} with a ${rating} star rating.`);
         return response.data;
     } catch (error) {
         throw new Error('Failed to submit your rating.');
