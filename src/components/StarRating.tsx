@@ -30,7 +30,7 @@ export function StarRating({ rating, onRate }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 20,
+    marginVertical: 0,
     paddingHorizontal: 20,
     alignItems: 'center',
   },

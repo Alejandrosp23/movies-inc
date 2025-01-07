@@ -2,11 +2,13 @@ import CastList from "@/src/components/CastList";
 import GenreTags from "@/src/components/GenreTags";
 import { MovieHeader } from "@/src/components/MovieHeader";
 import { StarRating } from "@/src/components/StarRating";
+import { ErrorMessage } from "@/src/components/ui/ErrorMessage";
+import { Loader } from "@/src/components/ui/Loader";
 import { fetchMovieDetailsById, rateMovie } from "@/src/services/movies";
 import { Movie, CastMember } from "@/src/types/movies";
 import { useLocalSearchParams } from "expo-router/build/hooks";
 import React, { useState, useEffect } from "react";
-import { View, ActivityIndicator, ScrollView, Text, StyleSheet } from "react-native";
+import { View, ActivityIndicator, ScrollView, Text, StyleSheet, Alert } from "react-native";
 
 export default function MovieDetailsScreen() {
     const { id } = useLocalSearchParams();
@@ -15,7 +17,7 @@ export default function MovieDetailsScreen() {
     const [rating, setRating] = useState(0);
 
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<Error | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         async function fetchMovieDetails() {
@@ -24,7 +26,11 @@ export default function MovieDetailsScreen() {
                 const data = await fetchMovieDetailsById(Number(id));
                 setMovie(data);
             } catch (error) {
-                setError(error as Error);
+                if (error instanceof Error) {
+                    setError(error.message);
+                  } else {
+                    setError('An unexpected error occurred.');
+                  }
             } finally {
                 setLoading(false);
             }
@@ -43,26 +49,26 @@ export default function MovieDetailsScreen() {
         setRating(value);
         try {
             await rateMovie(Number(id), value);
-            alert(`You rated movie ${id} with a ${value} star rating.`);
-
-            const updatedMovie = await fetchMovieDetailsById(Number(id));
-            setMovie(updatedMovie);
+            Alert.alert('Success', `You rated the movie with ${value} stars.`);
         } catch (error) {
-            console.error(error);
+            if (error instanceof Error) {
+                Alert.alert('Error', error.message);
+            } else {
+                Alert.alert('Error', 'An unknown error occurred.');
+            }
         }
     }
 
     return (
         <ScrollView style={styles.container}>
-            {loading && <ActivityIndicator size="large" color="#007BFF" />}
+            {loading && <Loader/>}
 
-            {error && <Text style={styles.errorText}>{error.message}</Text>}
+            {error && <ErrorMessage error={error} />}
 
             {!loading && !error && movie && (
                 <>
                     <MovieHeader movie={movie} />
                     <StarRating rating={rating} onRate={handleRating} />
-                    <GenreTags genres={movie.genres} />
                     <CastList cast={filterTop10CastMembers(movie.cast)} />
                 </>
             )}
@@ -74,11 +80,6 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#f8f9fa',
-    },
-    errorText: {
-        color: 'red',
-        textAlign: 'center',
-        marginTop: 20,
     },
 });
 

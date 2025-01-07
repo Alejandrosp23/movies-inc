@@ -21,7 +21,7 @@ export default function GenreTags({ genres }: GenreTagsProps) {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 0,
+    marginTop: 20,
     paddingLeft: 20,
     marginBottom: 0,
   },
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#333',
     paddingHorizontal: 15,
     paddingVertical: 8,
-    borderRadius: 20,
+    borderRadius: 10,
     marginRight: 10,
   },
   tagText: {

@@ -4,11 +4,13 @@ import { useRouter } from 'expo-router';
 import { fetchNowPlayingMovies } from '@/src/services/movies';
 import { Movie } from '@/src/types/movies';
 import { MovieList } from '../components/MovieList';
+import { Loader } from '../components/ui/Loader';
+import { ErrorMessage } from '../components/ui/ErrorMessage';
 
 export default function HomeScreen() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchMovies() {
@@ -17,7 +19,11 @@ export default function HomeScreen() {
         const data = await fetchNowPlayingMovies();
         setMovies(data);
       } catch (error) {
-        setError(error as Error);
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError('An unexpected error occurred.');
+        }
       }finally {
         setLoading(false);
     }
@@ -29,9 +35,9 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>Now Playing 🎬</Text>
 
-      {loading && <ActivityIndicator size="large" color="#007BFF" />}
+      {loading && <Loader />}
 
-      {error && <Text style={styles.errorText}>{error.message}</Text>}
+      {error && <ErrorMessage error={error} />}
 
       {!loading && !error && movies.length === 0 && (
         <Text style={styles.emptyText}>No movies available right now.</Text> 
@@ -53,12 +59,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginVertical: 20,
     color: '#333',
-  },
-  errorText: {
-    color: 'red',
-    fontSize: 16,
-    textAlign: 'center',
-    marginTop: 20,
   },
   emptyText: {
     color: '#666',
