@@ -19,6 +19,7 @@ export function StarRating({ rating, onRate }: Props) {
               size={36}
               color="#FFD700"
               style={styles.starIcon}
+              testID={`star-icon-${star}`}
             />
           </TouchableOpacity>
         ))}

@@ -42,15 +42,12 @@ describe('MovieList Component', () => {
   it('renders a list of movies', () => {
     const { getByText } = render(<MovieList movies={mockMovies} />);
 
-    // Assert that movie titles are displayed
     expect(getByText('The Lord of the Rings')).toBeTruthy();
     expect(getByText('Harry Potter and the Sorcerer\'s Stone')).toBeTruthy();
 
-    // Assert that release dates are displayed
     expect(getByText('Release: 2001-12-19')).toBeTruthy();
     expect(getByText('Release: 2001-11-16')).toBeTruthy();
 
-    // Assert that ratings are displayed
     expect(getByText('Rating: ⭐ 8.8')).toBeTruthy();
     expect(getByText('Rating: ⭐ 7.9')).toBeTruthy();
   });
@@ -58,10 +55,8 @@ describe('MovieList Component', () => {
   it('navigates to movie details screen when a movie is pressed', () => {
     const { getByText } = render(<MovieList movies={mockMovies} />);
 
-    // Simulate a press on the first movie
     fireEvent.press(getByText('The Lord of the Rings'));
 
-    // Assert that the correct route was pushed
     expect(router.push).toHaveBeenCalledWith('/movie/1');
   });
 });

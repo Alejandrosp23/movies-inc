@@ -7,7 +7,7 @@ type LoaderProps = {
 
 export function Loader({ message = 'Loading...' }: LoaderProps) {
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID='loader'>
       <ActivityIndicator size="large" color="#007BFF" />
       <Text style={styles.message}>{message}</Text>
     </View>
